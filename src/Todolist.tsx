@@ -17,6 +17,7 @@ type PropsType = {
     date?: string
     removeTask: (taskId: string) => void
     addTask: (title: string) => void
+    filterDescending: () => void
 }
 
 export const Todolist = (
@@ -28,6 +29,7 @@ export const Todolist = (
         date,
         removeTask,
         addTask,
+        filterDescending
     }: PropsType) => {
 
 
@@ -75,6 +77,9 @@ export const Todolist = (
             onClickAddTaskHandler()
         }
     }
+    // const onClickFilterDescending = () => {
+    //     alert('hello!')
+    // }
 
     return (
         <div className={"todolist"}>
@@ -106,6 +111,7 @@ export const Todolist = (
                 <Button onClick={onClickHandlerCreator("all")} title={"All"}/>
                 <Button onClick={onClickHandlerCreator("active")} title={"Active"}/>
                 <Button onClick={onClickHandlerCreator("completed")} title={"Completed"}/>
+                <Button onClick={filterDescending} title={"Descending"}/>
             </div>
             <div>{date}</div>
         </div>
