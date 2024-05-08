@@ -36,6 +36,7 @@ export const Todolist = (
     // Local state
     const [filter, setFilter] = useState<FilterValuesType>("all")
     const [taskTitle, setTaskTitle] = useState("")
+    const [editableListItem, setEditableListItem] = useState(false)
 
     // UI
     const getTasksForTodoList = (allTasks: Array<TaskType>, nextFilterValue: FilterValuesType) => {
@@ -55,12 +56,25 @@ export const Todolist = (
     const tasksList: Array<JSX.Element> | JSX.Element = tasksForTodoList.length
         ? tasksForTodoList.map(task => {
             const onClickRemoveTaskHandler = () => removeTask((task.id))
+            const onChangeDoubleClickHandler = () => {
+                setEditableListItem(!editableListItem)
+                console.log(setEditableListItem(!editableListItem))
+            }
             return (
-                <li key={task.id}>
-                    <input type="checkbox" checked={task.isDone}/>
-                    <span>{task.title}</span>
-                    <Button onClick={onClickRemoveTaskHandler} title={'x'}/>
-                </li>
+                editableListItem
+                    ?
+                    <li key={task.id} onDoubleClick={onChangeDoubleClickHandler}>
+                        <input type="checkbox" checked={task.isDone} value={taskTitle}/>
+                        <span>{task.title}</span>
+                        <Button onClick={onClickRemoveTaskHandler} title={'x'}/>
+                    </li>
+                    :
+                    <li key={task.id} onDoubleClick={onChangeDoubleClickHandler}>
+                        <input type="checkbox" checked={task.isDone} />
+                        <span>{task.title}</span>
+                        <Button onClick={onClickRemoveTaskHandler} title={'x'}/>
+                    </li>
+
             )
         })
         : <div>Your tasksList is empty</div>
@@ -77,9 +91,6 @@ export const Todolist = (
             onClickAddTaskHandler()
         }
     }
-    // const onClickFilterDescending = () => {
-    //     alert('hello!')
-    // }
 
     return (
         <div className={"todolist"}>
