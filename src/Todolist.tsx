@@ -1,4 +1,4 @@
-import React, {ChangeEvent, KeyboardEvent, useState} from 'react'
+import React, {ChangeEvent, KeyboardEvent, useEffect, useRef, useState} from 'react'
 import {Button} from "./Button";
 import {FilterValuesType} from "./App";
 
@@ -36,7 +36,15 @@ export const Todolist = (
     // Local state
     const [filter, setFilter] = useState<FilterValuesType>("all")
     const [taskTitle, setTaskTitle] = useState("")
-    const [editableListItem, setEditableListItem] = useState(false)
+    // const [editableListItem, setEditableListItem] = useState(false)
+    const [editableListItem, setEditableListItem] = useState<null | string>(null);
+    const inputRef = useRef<HTMLInputElement>(null);
+
+    useEffect(() => {
+        if (editableListItem && inputRef.current) {
+            inputRef.current.focus();
+        }
+    }, [editableListItem]);
 
     // UI
     const getTasksForTodoList = (allTasks: Array<TaskType>, nextFilterValue: FilterValuesType) => {
@@ -56,25 +64,30 @@ export const Todolist = (
     const tasksList: Array<JSX.Element> | JSX.Element = tasksForTodoList.length
         ? tasksForTodoList.map(task => {
             const onClickRemoveTaskHandler = () => removeTask((task.id))
-            const onChangeDoubleClickHandler = () => {
-                setEditableListItem(!editableListItem)
-                console.log(setEditableListItem(!editableListItem))
+            const onChangeDoubleClickHandler = (id: string) => setEditableListItem(id)
+            const onKeyDownEditHandler = (e: KeyboardEvent<HTMLInputElement>) => {
+                if (e.key === 'Enter') {
+                    console.log('!!!!!')
+                    setEditableListItem(null)
+                }
             }
             return (
-                editableListItem
+                editableListItem === task.id
                     ?
-                    <li key={task.id} onDoubleClick={onChangeDoubleClickHandler}>
-                        <input type="checkbox" checked={task.isDone} value={taskTitle}/>
-                        <span>{task.title}</span>
+                    <li key={task.id}>
+                        <input type="text"
+                               ref={inputRef}
+                               defaultValue={task.title}
+                               onBlur={() => setEditableListItem(null)} autoFocus
+                               onKeyDown={onKeyDownEditHandler}/>
                         <Button onClick={onClickRemoveTaskHandler} title={'x'}/>
                     </li>
                     :
-                    <li key={task.id} onDoubleClick={onChangeDoubleClickHandler}>
+                    <li key={task.id} onDoubleClick={() => onChangeDoubleClickHandler(task.id)}>
                         <input type="checkbox" checked={task.isDone} />
                         <span>{task.title}</span>
                         <Button onClick={onClickRemoveTaskHandler} title={'x'}/>
                     </li>
-
             )
         })
         : <div>Your tasksList is empty</div>
