@@ -18,6 +18,7 @@ type PropsType = {
     removeTask: (taskId: string) => void
     addTask: (title: string) => void
     filterDescending: () => void
+    updateTask: (taskId: string, newTitle: string) => void
 }
 
 export const Todolist = (
@@ -29,7 +30,8 @@ export const Todolist = (
         date,
         removeTask,
         addTask,
-        filterDescending
+        filterDescending,
+        updateTask
     }: PropsType) => {
 
 
@@ -68,6 +70,7 @@ export const Todolist = (
             const onKeyDownEditHandler = (e: KeyboardEvent<HTMLInputElement>) => {
                 if (e.key === 'Enter') {
                     console.log('!!!!!')
+                    updateTask(task.id, e.currentTarget.value);
                     setEditableListItem(null)
                 }
             }
@@ -78,7 +81,10 @@ export const Todolist = (
                         <input type="text"
                                ref={inputRef}
                                defaultValue={task.title}
-                               onBlur={() => setEditableListItem(null)} autoFocus
+                               onBlur={(e:React.FocusEvent<HTMLInputElement> ) => {
+                                   updateTask(task.id, e.currentTarget.value);
+                                   setEditableListItem(null)
+                               }}
                                onKeyDown={onKeyDownEditHandler}/>
                         <Button onClick={onClickRemoveTaskHandler} title={'x'}/>
                     </li>

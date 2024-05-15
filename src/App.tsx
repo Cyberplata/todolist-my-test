@@ -47,6 +47,11 @@ function App() {
         setTasks(newFilterDescending)
     }
 
+    const updateTask = (taskId: string, newTitle: string) => {
+        const updatedTasks = tasks.map(t => t.id === taskId ? {...t, title: newTitle} : t);
+        setTasks(updatedTasks);
+    }
+
     return (
         <div className="App">
             <Todolist
@@ -58,6 +63,7 @@ function App() {
                 removeTask={removeTask}
                 addTask={addTask}
                 filterDescending={filterDescending}
+                updateTask={updateTask}
                 // changeTodoListFilter={changeTodoListFilter}
             />
             {/*<Todolist title="Songs" subtitle="Let's go everything" description="Cool music" tasks={tasks2}/>*/}
