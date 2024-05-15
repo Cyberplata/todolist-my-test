@@ -42,8 +42,8 @@ function App() {
         setTasks(newState)
     }
 
-    const filterDescending = () => {
-        const newFilterDescending = [...tasks].sort((a, b) => a.id > b.id ? -1 : 1)
+    const filterAlphabetOrder = () => {
+        const newFilterDescending = [...tasks].sort((a, b) => a.title > b.title ? 1 : -1)
         setTasks(newFilterDescending)
     }
 
@@ -62,7 +62,7 @@ function App() {
                 date={'26.03.2024'}
                 removeTask={removeTask}
                 addTask={addTask}
-                filterDescending={filterDescending}
+                filterAlphabetOrder={filterAlphabetOrder}
                 updateTask={updateTask}
                 // changeTodoListFilter={changeTodoListFilter}
             />

@@ -17,7 +17,7 @@ type PropsType = {
     date?: string
     removeTask: (taskId: string) => void
     addTask: (title: string) => void
-    filterDescending: () => void
+    filterAlphabetOrder: () => void
     updateTask: (taskId: string, newTitle: string) => void
 }
 
@@ -30,7 +30,7 @@ export const Todolist = (
         date,
         removeTask,
         addTask,
-        filterDescending,
+        filterAlphabetOrder,
         updateTask
     }: PropsType) => {
 
@@ -141,7 +141,7 @@ export const Todolist = (
                 <Button onClick={onClickHandlerCreator("all")} title={"All"}/>
                 <Button onClick={onClickHandlerCreator("active")} title={"Active"}/>
                 <Button onClick={onClickHandlerCreator("completed")} title={"Completed"}/>
-                <Button onClick={filterDescending} title={"Descending"}/>
+                <Button onClick={filterAlphabetOrder} title={"Alphabet order"}/>
             </div>
             <div>{date}</div>
         </div>
