@@ -69,7 +69,7 @@ export const Todolist = (
             const onChangeDoubleClickHandler = (id: string) => setEditableListItem(id)
             const onKeyDownEditHandler = (e: KeyboardEvent<HTMLInputElement>) => {
                 if (e.key === 'Enter') {
-                    console.log('!!!!!')
+                    console.log(e.key, '!')
                     updateTask(task.id, e.currentTarget.value);
                     setEditableListItem(null)
                 }
